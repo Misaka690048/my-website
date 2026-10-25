@@ -5,8 +5,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  // 正式域名尚未确定；上线前替换此占位地址。
-  site: 'https://example.com',
+  // 网站的正式主地址。
+  site: 'https://imisslog.com',
   trailingSlash: 'always',
   integrations: [sitemap()],
   vite: {

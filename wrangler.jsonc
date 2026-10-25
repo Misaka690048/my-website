@@ -1,8 +1,8 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "my-website",
-  // 首次部署时核对并更新为部署当天的日期。
-  "compatibility_date": "2026-10-24",
+  // 首次部署时选定的兼容日期。
+  "compatibility_date": "2026-10-25",
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page"
