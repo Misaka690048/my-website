@@ -1,0 +1,32 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostDate from '../../components/PostDate.astro';
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <a href="/#notes" class="text-sm font-medium text-teal-800 hover:underline">← 返回笔记列表</a>
+  <article class="mt-9">
+    <header class="mb-9 border-b border-stone-300 pb-8">
+      <p class="mb-4 text-sm text-stone-600"><PostDate date={post.data.pubDate} /></p>
+      <h1 class="text-3xl leading-snug font-semibold tracking-tight text-stone-900 sm:text-4xl">{post.data.title}</h1>
+      <p class="mt-5 leading-8 text-stone-600">{post.data.description}</p>
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

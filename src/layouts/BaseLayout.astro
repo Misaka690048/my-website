@@ -1,0 +1,39 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+}
+
+const { title, description, noindex = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title} · 个人网站</title>
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <a href="#main-content" class="skip-link">跳到正文</a>
+    <header class="mx-auto flex w-full max-w-3xl items-center justify-between gap-6 border-b border-stone-300 px-6 py-7 sm:px-8">
+      <a href="/" class="font-semibold tracking-wide text-stone-900">个人网站</a>
+      <nav aria-label="主导航" class="flex gap-5 text-sm text-stone-600">
+        <a href="/" aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>首页</a>
+        <a href="/#notes">笔记</a>
+      </nav>
+    </header>
+    <main id="main-content" tabindex="-1" class="mx-auto w-full max-w-3xl flex-1 px-6 py-12 sm:px-8 sm:py-16">
+      <slot />
+    </main>
+    <footer class="mx-auto w-full max-w-3xl border-t border-stone-300 px-6 py-6 text-sm text-stone-600 sm:px-8">
+      <p>文章、学习笔记与项目记录。</p>
+    </footer>
+  </body>
+</html>

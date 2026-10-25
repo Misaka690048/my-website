@@ -1,0 +1,11 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "my-website",
+  // 首次部署时核对并更新为部署当天的日期。
+  "compatibility_date": "2026-10-24",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  },
+  "previews": {}
+}

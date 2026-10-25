@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostDate from '../components/PostDate.astro';
+
+const posts = (await getCollection('posts')).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
+---
+
+<BaseLayout title="首页" description="记录学习中的思考、实践与收获。">
+  <section aria-labelledby="intro-title" class="pb-14 sm:pb-20">
+    <p class="mb-5 text-sm font-medium tracking-widest text-teal-800">记录 · 思考 · 实践</p>
+    <h1 id="intro-title" class="max-w-xl text-3xl leading-snug font-semibold tracking-tight text-stone-900 sm:text-5xl sm:leading-tight">
+      文章、笔记<br />与项目记录。
+    </h1>
+    <p class="mt-6 max-w-lg text-base leading-8 text-stone-600 sm:text-lg">
+      在这里整理学到的知识、做过的尝试，以及值得继续思考的问题。
+    </p>
+  </section>
+
+  <section id="notes" aria-labelledby="notes-title" class="scroll-mt-6">
+    <h2 id="notes-title" class="border-b border-stone-300 pb-4 text-lg font-semibold text-stone-900">最新笔记</h2>
+    <ul>
+      {posts.map((post) => (
+        <li class="border-b border-stone-300 py-7">
+          <article>
+            <p class="mb-3 text-sm text-stone-600"><PostDate date={post.data.pubDate} /></p>
+            <h3 class="text-xl leading-relaxed font-semibold text-stone-900">
+              <a href={`/posts/${post.id}/`} class="hover:text-teal-800">{post.data.title}</a>
+            </h3>
+            <p class="mt-3 leading-7 text-stone-600">{post.data.description}</p>
+          </article>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
