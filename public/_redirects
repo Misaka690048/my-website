@@ -1,0 +1,2 @@
+# 路径重定向演练：跳转到现有示例文章
+/old-post /posts/first-note/ 301
