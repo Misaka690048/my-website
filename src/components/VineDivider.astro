@@ -1,0 +1,5 @@
+---
+interface Props { variant?: 'stem' | 'flower'; compact?: boolean; }
+const { compact = false } = Astro.props;
+---
+<div class:list={['vine-divider', 'botanical-rule', { 'vine-compact': compact }]} aria-hidden="true"></div>

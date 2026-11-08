@@ -1,26 +1,58 @@
 ---
-import '../styles/global.css';
+import '../styles/site.css';
+import { ClientRouter } from 'astro:transitions';
+import Icon from '../components/Icon.astro';
+import { Image, getImage } from 'astro:assets';
+import dividerLightSource from '../assets/ornaments/divider-light.png';
+import BotanicalBackdrop from '../components/BotanicalBackdrop.astro';
+import logoLight from '../assets/branding/logo-light.png';
+import logoDark from '../assets/branding/logo-dark.png';
+import wordmark from '../assets/branding/wordmark.svg?raw';
+import SearchDialog from '../components/SearchDialog.astro';
+import Footer from '../components/Footer.astro';
+import ViewportEdges from '../components/ViewportEdges.astro';
+import PrintHeadingFilters from '../components/PrintHeadingFilters.astro';
+import { printHeadingStrength } from '../data/print-headings';
 
 interface Props {
   title: string;
   description: string;
   noindex?: boolean;
   ogType?: 'website' | 'article';
+  wide?: boolean;
 }
 
-const { title, description, noindex = false, ogType = 'website' } = Astro.props;
-const siteName = '个人网站';
+const { title, description, noindex = false, ogType = 'website', wide = false } = Astro.props;
+const readingPage = ogType === 'article';
+const dividerLight = await getImage({ src: dividerLightSource, format: 'webp', quality: 100 });
+const siteName = 'imisslog';
 const pageTitle = `${title} · ${siteName}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const shareImageURL = new URL('/og-default.png', Astro.site);
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-print-headings={printHeadingStrength} style={`--divider-light: url("${dividerLight.src}"); --divider-light-ratio: ${dividerLightSource.width} / ${dividerLightSource.height}`}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    <script is:inline>
+      // Run before paint; storage can be blocked in private browsing.
+      (() => {
+        let preference = 'system';
+        try {
+          const saved = localStorage.getItem('imisslog-theme');
+          if (saved === 'light' || saved === 'dark') preference = saved;
+        } catch {}
+        document.documentElement.dataset.themePreference = preference;
+        document.documentElement.dataset.theme = preference === 'system'
+          ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : preference;
+      })();
+    </script>
+    <ClientRouter fallback="swap" />
     {!noindex && <link rel="canonical" href={canonicalURL.href} />}
     {noindex && <meta name="robots" content="noindex" />}
     {!noindex && (
@@ -41,20 +73,51 @@ const shareImageURL = new URL('/og-default.png', Astro.site);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{pageTitle}</title>
   </head>
-  <body class="flex min-h-screen flex-col">
-    <a href="#main-content" class="skip-link">跳到正文</a>
-    <header class="mx-auto flex w-full max-w-3xl items-center justify-between gap-6 border-b border-stone-300 px-6 py-7 sm:px-8">
-      <a href="/" class="font-semibold tracking-wide text-stone-900">个人网站</a>
-      <nav aria-label="主导航" class="flex gap-5 text-sm text-stone-600">
-        <a href="/" aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>首页</a>
-        <a href="/#notes">笔记</a>
-      </nav>
+  <body class:list={{ 'reading-page': readingPage }}>
+    <PrintHeadingFilters />
+    <BotanicalBackdrop />
+    <slot name="background" />
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <header class="site-header" id="site-header" transition:name="site-header" transition:animate="none">
+      <div class="nav-shell">
+        <a href="/" class="site-brand" aria-label="imisslog Home">
+          <span class="site-logo" aria-hidden="true">
+            <span class="logo-artwork" transition:name="site-logo">
+            <Image src={logoLight} width={240} alt="" class="logo-image logo-light" loading="eager" />
+            <Image src={logoDark} width={240} alt="" class="logo-image logo-dark" loading="eager" />
+            </span>
+          </span>
+          {!readingPage && <span class="wordmark print-heading print-heading--compact" aria-hidden="true" set:html={wordmark} />}
+        </a>
+        <div class="nav-actions" hidden={readingPage}>
+          <nav aria-label="Main navigation" class="main-nav" id="main-nav">
+            <a href="/" aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>Home</a>
+            <a href="/writing/" aria-current={(Astro.url.pathname === '/writing/' || Astro.url.pathname.startsWith('/posts/')) ? 'page' : undefined}>Writing</a>
+            <a href="/tags/" aria-current={Astro.url.pathname === '/tags/' ? 'page' : Astro.url.pathname.startsWith('/tags/') ? 'location' : undefined}>Tags</a>
+            <a href="/about/" aria-current={Astro.url.pathname === '/about/' ? 'page' : undefined}>About</a>
+          </nav>
+          <div class="nav-tools">
+            <button type="button" class="icon-button js-control" data-open-search aria-label="Search" aria-haspopup="dialog" aria-controls="search-dialog"><Icon name="search" /></button>
+            <button type="button" class="icon-button js-control" id="theme-toggle" aria-label="System mode; switch to light mode" title="System mode; switch to light mode">
+              <Icon name="monitor" class="theme-system" /><Icon name="sun" class="theme-sun" /><Icon name="moon" class="theme-moon" />
+            </button>
+          </div>
+        </div>
+      </div>
     </header>
-    <main id="main-content" tabindex="-1" class="mx-auto w-full max-w-3xl flex-1 px-6 py-12 sm:px-8 sm:py-16">
+    <main id="main-content" tabindex="-1" data-home-page={Astro.url.pathname === '/' ? '' : undefined} class:list={['main-content', { 'main-wide': wide }]}>
       <slot />
     </main>
-    <footer class="mx-auto w-full max-w-3xl border-t border-stone-300 px-6 py-6 text-sm text-stone-600 sm:px-8">
-      <p>文章、学习笔记与项目记录。</p>
-    </footer>
+    <Footer showPreviewLink={!readingPage} />
+    <ViewportEdges />
+    <SearchDialog />
+    <button type="button" class:list={['back-to-top icon-button js-control', { 'has-reading-progress': ogType === 'article' }]} id="back-to-top" aria-label="Back to top" title="Back to top" inert>
+      {ogType === 'article' && <span class="back-to-top-percent" id="back-to-top-percent" aria-hidden="true">0%</span>}
+      <Icon name="chevron-down" class="back-to-top-arrow" />
+    </button>
+    <script>
+      import '../scripts/site';
+    </script>
+    <noscript><style>.js-control { display: none !important; }</style></noscript>
   </body>
 </html>

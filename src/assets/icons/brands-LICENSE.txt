@@ -1,0 +1,12 @@
+Simple Icons — CC0 1.0 Universal
+https://creativecommons.org/publicdomain/zero/1.0/
+https://github.com/simple-icons/simple-icons/blob/develop/LICENSE.md
+
+SVG sources:
+https://github.com/simple-icons/simple-icons/blob/develop/icons/github.svg
+https://github.com/simple-icons/simple-icons/blob/develop/icons/x.svg
+https://github.com/simple-icons/simple-icons/commit/b46f14c89ddbac0d5a10be11fc2fb00e5af00321
+Bilibili original path mirror:
+https://git.mibew.org/Mibew/simple-icons/commit/b46f14c89ddbac0d5a10be11fc2fb00e5af00321
+
+These logos identify their respective services; brand rights remain with their owners.

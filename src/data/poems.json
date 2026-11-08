@@ -1,0 +1,128 @@
+[
+  {
+    "id": "jing-ye-si",
+    "text": "床前明月光，疑是地上霜。",
+    "author": "李白",
+    "work": "靜夜思",
+    "source": "https://zh.wikisource.org/zh-hant/靜夜思"
+  },
+  {
+    "id": "xuan-zhou",
+    "text": "俱懷逸興壯思飛，欲上青天覽明月。",
+    "author": "李白",
+    "work": "宣州謝朓樓餞別校書叔雲",
+    "source": "https://zh.wikisource.org/zh-hant/宣州謝朓樓餞別校書叔雲"
+  },
+  {
+    "id": "lan-ting",
+    "text": "仰觀宇宙之大，俯察品類之盛。",
+    "author": "王羲之",
+    "work": "蘭亭集序",
+    "source": "https://zh.wikisource.org/zh-hant/蘭亭集序"
+  },
+  {
+    "id": "chi-bi",
+    "text": "清風徐來，水波不興。",
+    "author": "蘇軾",
+    "work": "前赤壁賦",
+    "source": "https://zh.wikisource.org/zh-hant/前赤壁賦"
+  },
+  {
+    "id": "lou-shi",
+    "text": "苔痕上階綠，草色入簾青。",
+    "author": "劉禹錫",
+    "work": "陋室銘",
+    "source": "https://zh.wikisource.org/zh-hant/陋室銘"
+  },
+  {
+    "id": "tao-hua",
+    "text": "芳草鮮美，落英繽紛。",
+    "author": "陶淵明",
+    "work": "桃花源記",
+    "source": "https://zh.wikisource.org/zh-hant/桃花源記"
+  },
+  {
+    "id": "deng-guan-que",
+    "text": "欲窮千里目，更上一層樓。",
+    "author": "王之渙",
+    "work": "登鸛雀樓",
+    "source": "https://zh.wikisource.org/zh-hant/登鸛雀樓_(王之渙)"
+  },
+  {
+    "id": "shan-ju",
+    "text": "明月松間照，清泉石上流。",
+    "author": "王維",
+    "work": "山居秋暝",
+    "source": "https://zh.wikisource.org/zh-hant/山居秋暝"
+  },
+  {
+    "id": "chun-ye",
+    "text": "隨風潛入夜，潤物細無聲。",
+    "author": "杜甫",
+    "work": "春夜喜雨",
+    "source": "https://zh.wikisource.org/zh-hant/春夜喜雨"
+  },
+  {
+    "id": "yin-jiu",
+    "text": "採菊東籬下，悠然見南山。",
+    "author": "陶淵明",
+    "work": "飲酒·其五",
+    "source": "https://zh.wikisource.org/zh-hant/飲酒二十首"
+  },
+  {
+    "id": "jing-ting",
+    "text": "相看兩不厭，只有敬亭山。",
+    "author": "李白",
+    "work": "獨坐敬亭山",
+    "source": "https://zh.wikisource.org/zh-hant/獨坐敬亭山"
+  },
+  {
+    "id": "zhu-li",
+    "text": "深林人不知，明月來相照。",
+    "author": "王維",
+    "work": "竹里館",
+    "source": "https://zh.wikisource.org/zh-hant/千家詩/卷一"
+  },
+  {
+    "id": "wang-yue",
+    "text": "會當凌絕頂，一覽眾山小。",
+    "author": "杜甫",
+    "work": "望岳",
+    "source": "https://zh.wikisource.org/zh-hant/望岳_(岱宗夫如何)"
+  },
+  {
+    "id": "xing-lu",
+    "text": "長風破浪會有時，直掛雲帆濟滄海。",
+    "author": "李白",
+    "work": "行路難·其一",
+    "source": "https://zh.wikisource.org/zh-hant/行路難_(李白)"
+  },
+  {
+    "id": "bai-di",
+    "text": "兩岸猿聲啼不住，輕舟已過萬重山。",
+    "author": "李白",
+    "work": "早發白帝城",
+    "source": "https://zh.wikisource.org/zh-hant/早發白帝城"
+  },
+  {
+    "id": "du-shao-fu",
+    "text": "海內存知己，天涯若比鄰。",
+    "author": "王勃",
+    "work": "送杜少府之任蜀州",
+    "source": "https://zh.wikisource.org/zh-hant/杜少府之任蜀州"
+  },
+  {
+    "id": "shan-xi-cun",
+    "text": "山重水復疑無路，柳暗花明又一村。",
+    "author": "陸游",
+    "work": "遊山西村",
+    "source": "https://zh.wikisource.org/zh-hant/遊山西村"
+  },
+  {
+    "id": "chou-le-tian",
+    "text": "沉舟側畔千帆過，病樹前頭萬木春。",
+    "author": "劉禹錫",
+    "work": "酬樂天揚州初逢席上見贈",
+    "source": "https://zh.wikisource.org/zh-hant/酬樂天揚州初逢席上見贈"
+  }
+]

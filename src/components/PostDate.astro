@@ -1,15 +1,13 @@
 ---
+import Icon from './Icon.astro';
+import { formatPostDate } from '../lib/post-date';
 interface Props {
   date: Date;
+  transitionName?: string;
 }
 
-const { date } = Astro.props;
-const formattedDate = new Intl.DateTimeFormat('zh-CN', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  timeZone: 'Asia/Shanghai',
-}).format(date);
+const { date, transitionName } = Astro.props;
+const formattedDate = formatPostDate(date);
 ---
 
-<time datetime={date.toISOString()}>{formattedDate}</time>
+<time class="post-date" datetime={date.toISOString()} transition:name={transitionName} data-post-transition={transitionName}><Icon name="calendar" size={15} /><span>{formattedDate}</span></time>

@@ -1,0 +1,35 @@
+/* Font resources and roles. No runtime requests to external font services.
+   EB Garamond is self-hosted and restricted to Latin display text, weights 500–650.
+   CJK remains system-backed: do not add a full 26 MB collection here. */
+@font-face {
+  font-family: "EB Garamond";
+  src: url('../assets/fonts/eb-garamond-latin-500-650.woff') format('woff');
+  font-weight: 500 650;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0020-017F, U+0300-036F, U+2000-206F;
+}
+
+@font-face {
+  font-family: "Site Code";
+  src: url('../assets/fonts/DejaVuSansMono.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poetry Fangsong";
+  src: url('../assets/fonts/poetry-zhuque.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@theme {
+  --font-serif: "Noto Serif", "Noto Serif SC", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", "SimSun", "Noto Serif TC", "Source Han Serif TC", "Noto Serif CJK TC", "Times New Roman", Times, serif;
+  --font-display: "EB Garamond", Georgia, "Times New Roman", var(--font-serif);
+  --font-poetry: "Poetry Fangsong", "Noto Serif CJK TC", "Source Han Serif TC", "Songti TC", serif;
+  --font-fangsong: "Poetry Fangsong", "Zhuque Fangsong (technical preview)", "STFangsong", "FangSong", "仿宋", serif;
+  --font-mono: "Courier New", Courier, Menlo, Monaco, Consolas, "Liberation Mono", "Lucida Console", monospace;
+  --font-code: "Site Code", "DejaVu Sans Mono", "SFMono-Regular", Consolas, monospace;
+}

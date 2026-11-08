@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import PostDate from './PostDate.astro';
+import { titleTransition, metadataTransition } from '../lib/posts';
+import TagLinks from './TagLinks.astro';
+import { postYear } from '../lib/post-date';
+interface Props { posts: CollectionEntry<'posts'>[]; headingLevel?: 'h2' | 'h3'; groupByYear?: boolean; }
+const { posts, headingLevel: Heading = 'h2', groupByYear = false } = Astro.props;
+const groups = groupByYear
+  ? [...Map.groupBy(posts, post => postYear(post.data.pubDate))].sort(([a], [b]) => b - a)
+  : [[null, posts] as const];
+const Group = groupByYear ? 'section' : 'div';
+---
+{groups.map(([year, entries]) => <Group class:list={{ 'archive-year': groupByYear }} data-year-group={groupByYear ? year : undefined} aria-label={year ? String(year) : undefined}>
+  {year && <header class="archive-year-heading"><h2>{year}</h2><span data-year-count>{entries.length} {entries.length === 1 ? 'post' : 'posts'}</span></header>}
+<ul class="post-list">
+  {entries.map(post => (
+    <li data-post-row data-tags={JSON.stringify(post.data.tags)}>
+      <article>
+        <Heading class="post-list-title print-heading print-heading--compact" transition:name={titleTransition(post.id)} data-post-transition={titleTransition(post.id)}>
+          <a href={`/posts/${post.id}/`} data-post-link>{post.data.title}</a>
+        </Heading>
+        <p class="post-meta post-list-date"><PostDate date={post.data.pubDate} transitionName={metadataTransition(post.id, 'date')} /></p>
+        <TagLinks tags={post.data.tags} transitionName={metadataTransition(post.id, 'tags')} />
+      </article>
+    </li>
+  ))}
+</ul>
+</Group>)}

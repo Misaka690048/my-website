@@ -1,0 +1,6 @@
+/* One ordered entry point keeps base rules before editorial overrides,
+   including during Vite hot updates of imported font styles. */
+@import "./global.css";
+@import "./works.css";
+@import "./editorial.css";
+@import "./print-headings.css";

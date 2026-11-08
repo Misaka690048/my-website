@@ -1,0 +1,13 @@
+---
+import { socials } from '../data/socials';
+import { brands } from '../assets/icons/brands';
+import Icon from './Icon.astro';
+---
+<div class="social-links" aria-label="Contact">
+  {socials.map(social => {
+    const Element = social.url ? 'a' : 'span';
+    return <Element href={social.url || undefined} class="social-link" aria-label={social.url ? social.name : `${social.name} (coming soon)`} aria-disabled={!social.url ? 'true' : undefined} title={social.url ? social.name : `${social.name} · Coming soon`}>
+      {social.icon === 'mail' ? <Icon name="mail" size={22} class="social-mail" /> : <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={brands[social.icon]} /></svg>}
+    </Element>;
+  })}
+</div>

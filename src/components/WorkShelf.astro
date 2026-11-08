@@ -1,0 +1,19 @@
+---
+import { Image } from 'astro:assets';
+import { coverTransition, type LibraryWork } from '../lib/works';
+interface Props { works: LibraryWork[]; compact?: boolean; }
+const { works, compact = false } = Astro.props;
+---
+<ul class:list={['work-shelf', { 'work-shelf-compact': compact }]} aria-label="Works">
+  {works.map(work => {
+    const Frame = work.href ? 'a' : 'div';
+    return <li class="work-item">
+      <Frame class="work-entry" href={work.href} aria-label={work.href ? `${work.data.title} · ${work.review!.data.title}` : undefined}>
+        <span class="work-cover" transition:name={coverTransition(work.id)} data-post-transition={coverTransition(work.id)}>
+          <Image src={work.data.cover} alt={work.data.title} width={560} format="webp" loading="lazy" />
+        </span>
+        <span class="work-caption"><span class="work-title">{work.data.title}</span><span class="work-medium">{work.data.medium}</span></span>
+      </Frame>
+    </li>;
+  })}
+</ul>

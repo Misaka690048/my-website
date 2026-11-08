@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// User-provided translations from ../时代，前进.txt; preserve wording.
+// French uses a narrow no-break space before !; other punctuation is already native.
+const declarations = [
+  { lang: 'zh-Hans', label: '简体中文', text: '时代，前进！' },
+  { lang: 'zh-Hant', label: '繁體中文', text: '時代，前進！' },
+  { lang: 'en', label: 'English', text: 'Era, march forward!' },
+  { lang: 'fr', label: 'Français', text: 'Époque, en avant\u202f!' },
+  { lang: 'ru', label: 'Русский', text: 'Эпоха, вперёд!' },
+  { lang: 'ja', label: '日本語', text: '時代よ、進め！' },
+  { lang: 'ar', label: 'العربية', text: 'أيها العصر، تقدّم!' },
+  { lang: 'es', label: 'Español', text: '¡Época, avanza!' },
+];
+---
+
+<BaseLayout title="About" description="时代，前进！对文明进步与未来探索的呼唤、希望和信念。">
+  <header class="page-heading"><h1 class="print-heading">About</h1></header>
+  <ul class="declarations" role="list" aria-label="时代，前进！的八种语言版本">
+    {declarations.map(({ lang, label, text }) => (
+      <li lang={lang} dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+        <span class="language-name">{label}</span>
+        <p class="declaration" dir={lang === 'ar' ? 'rtl' : 'ltr'}>{text}</p>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>
+
+<style>
+  .declarations {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2rem;
+    text-align: center;
+  }
+  .declarations li { min-width: 0; }
+  .language-name { color: var(--muted); font-size: .75rem; line-height: 1.8; }
+  .declaration {
+    margin-top: .35rem;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 600;
+    line-height: 1.8;
+    letter-spacing: normal;
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: none;
+    unicode-bidi: isolate;
+    text-wrap: balance;
+  }
+  li:lang(zh-Hans) { font-family: "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", "SimSun", serif; }
+  li:lang(zh-Hant) { font-family: "Noto Serif CJK TC", "Source Han Serif TC", "Songti TC", "PMingLiU", serif; }
+  li:lang(ja) { font-family: "Noto Serif CJK JP", "Yu Mincho", "Hiragino Mincho ProN", serif; }
+  li:lang(ar) { font-family: "Noto Naskh Arabic", "Amiri", serif; }
+  .declaration:lang(zh), .declaration:lang(ja) { line-break: strict; }
+</style>

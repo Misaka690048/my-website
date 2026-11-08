@@ -1,0 +1,44 @@
+---
+import poems from '../data/poems.json';
+const initial = poems[0];
+---
+<figure class="home-poetry" lang="zh-Hant" data-poems={JSON.stringify(poems)}>
+  <blockquote><p data-poem-text>{initial.text}</p></blockquote>
+  <figcaption><span data-poem-author>{initial.author}</span><span aria-hidden="true">·</span><cite data-poem-work>《{initial.work}》</cite></figcaption>
+</figure>
+
+<script is:inline data-astro-rerun>
+  window.__imisslogRenderPoem = (doc) => {
+    const figure = doc.querySelector('[data-poems]');
+    if (!figure) return;
+    const poems = JSON.parse(figure.dataset.poems);
+    if (!poems.length) return;
+    let poem = poems.find(item => item.id === window.__imisslogPoem);
+    if (!poem) {
+      let last;
+      let seen = [];
+      try {
+        last = sessionStorage.getItem('imisslog-last-poem');
+        const saved = JSON.parse(sessionStorage.getItem('imisslog-poem-seen') || '[]');
+        if (Array.isArray(saved)) seen = saved.filter(id => poems.some(item => item.id === id));
+      } catch {}
+      if (last && !seen.includes(last)) seen.push(last);
+      let pool = poems.filter(item => !seen.includes(item.id));
+      if (!pool.length) {
+        seen = [];
+        pool = poems.filter(item => item.id !== last);
+      }
+      if (!pool.length) pool = poems;
+      poem = pool[Math.floor(Math.random() * pool.length)];
+      window.__imisslogPoem = poem.id;
+      try {
+        sessionStorage.setItem('imisslog-last-poem', poem.id);
+        sessionStorage.setItem('imisslog-poem-seen', JSON.stringify([...seen, poem.id]));
+      } catch {}
+    }
+    figure.querySelector('[data-poem-text]').textContent = poem.text;
+    figure.querySelector('[data-poem-author]').textContent = poem.author;
+    figure.querySelector('[data-poem-work]').textContent = '《' + poem.work + '》';
+  };
+  window.__imisslogRenderPoem(document);
+</script>

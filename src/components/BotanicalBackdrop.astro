@@ -1,0 +1,9 @@
+---
+import '../styles/botanical-background.css';
+import lightPattern from '../assets/ornaments/botanical-pattern-light.png';
+import darkPattern from '../assets/ornaments/botanical-pattern-dark.png';
+---
+<div class="page-botanical" aria-hidden="true" style={{
+  '--botanical-light-image': `url("${lightPattern.src}")`,
+  '--botanical-dark-image': `url("${darkPattern.src}")`,
+}}></div>

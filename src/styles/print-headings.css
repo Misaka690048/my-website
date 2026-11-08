@@ -1,0 +1,36 @@
+/* Opt in on the text heading itself, never on its surrounding layout. */
+.print-heading {
+  filter: none;
+}
+
+html[data-print-headings='subtle'] .print-heading {
+  filter: url('#print-subtle');
+}
+
+html[data-print-headings='medium'] .print-heading {
+  filter: url('#print-medium');
+}
+
+/* Smaller home/list headings and the wordmark need gentler contours than page titles. */
+html[data-print-headings='medium'] .print-heading--compact {
+  filter: url('#print-medium-compact');
+}
+
+.print-heading-filters {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  html[data-print-headings='medium'] .print-heading {
+    filter: url('#print-medium-compact');
+  }
+}
+
+/* Preserve clean glyphs in forced colors and physical/PDF printouts. */
+@media (forced-colors: active), print {
+  html[data-print-headings] .print-heading { filter: none; }
+}
