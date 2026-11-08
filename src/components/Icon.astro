@@ -1,0 +1,8 @@
+---
+import { icons } from '../assets/icons/lucide';
+interface Props { name: keyof typeof icons; size?: number; class?: string; }
+const { name, size = 20, class: className } = Astro.props;
+---
+<svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class={className}>
+  {icons[name].map(([Tag, attrs]) => <Tag {...attrs} />)}
+</svg>

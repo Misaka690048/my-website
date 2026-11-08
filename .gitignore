@@ -24,3 +24,10 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Sample content is versioned for the explicitly enabled online test release.
+# Production inclusion is controlled by src/data/publication.json.
+
+# Python cache
+__pycache__/
+*.py[cod]

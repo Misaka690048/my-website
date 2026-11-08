@@ -1,0 +1,12 @@
+---
+import PostLayout from '../layouts/PostLayout.astro';
+import { Content, frontmatter, getHeadings } from '../preview/reading-sample.md';
+
+// This route and its content are never emitted by a production build.
+export function getStaticPaths() {
+  return import.meta.env.DEV ? [{ params: { preview: 'design-preview' } }] : [];
+}
+---
+<PostLayout title={frontmatter.title} description={frontmatter.description} date={new Date('2026-10-31T00:00:00+08:00')} id="design-preview" headings={getHeadings()} preview>
+  <Content />
+</PostLayout>

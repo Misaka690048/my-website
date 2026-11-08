@@ -1,0 +1,31 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TagHeading from '../../components/TagHeading.astro';
+import PostList from '../../components/PostList.astro';
+import Icon from '../../components/Icon.astro';
+import { sortedPosts } from '../../lib/posts';
+import { countTags } from '../../lib/tags';
+import { tagInfo } from '../../lib/tag-catalog';
+
+export const getStaticPaths = (async () => {
+  const posts = await sortedPosts();
+  return countTags(posts).map(([name]) => ({
+    params: { tag: name },
+    props: { tag: tagInfo(name), posts: posts.filter(post => post.data.tags.includes(name)) },
+  }));
+}) satisfies GetStaticPaths;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { tag, posts } = Astro.props;
+---
+<BaseLayout title={`#${tag.name}`} description={tag.description || `与${tag.name}相关的文章。`} noindex={posts.every(post => post.data.preview)}>
+  <a href="/tags/" class="back-link"><Icon name="arrow-left" size={16} /> All tags</a>
+  <header class="collection-heading tag-page-heading">
+    <TagHeading detail>#{tag.name}</TagHeading>
+    {tag.description && <p class="tag-description">{tag.description}</p>}
+  </header>
+  <section aria-label={`${tag.name} posts`}>
+    <div class="collection-status"><p class="small muted">{posts.length} {posts.length === 1 ? 'post' : 'posts'}</p></div>
+    <PostList posts={posts} />
+  </section>
+</BaseLayout>

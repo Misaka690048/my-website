@@ -1,0 +1,18 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import { render } from 'astro:content';
+import PostLayout from '../../layouts/PostLayout.astro';
+import { libraryWorks } from '../../lib/works';
+export const getStaticPaths = (async () => (await libraryWorks())
+  .filter(work => work.review)
+  .map(work => ({ params: { id: work.id }, props: { work, review: work.review! } }))) satisfies GetStaticPaths;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { work, review } = Astro.props;
+const { Content, headings } = await render(review);
+---
+<PostLayout title={review.data.title} description={review.data.description} date={review.data.pubDate}
+  id={`review-${work.id}`} headings={headings} preview={work.data.preview || review.data.preview}
+  backPath="/mirrow-world/" backLabel="Mirrow World"
+  workCover={{ id: work.id, title: work.data.title, image: work.data.cover, glowColor: work.data.glowColor }}>
+  <Content />
+</PostLayout>

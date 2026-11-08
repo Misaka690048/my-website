@@ -1,0 +1,10 @@
+---
+import Icon from './Icon.astro';
+import { tagPageURL } from '../lib/tag-catalog';
+interface Props { tags: string[]; transitionName?: string; }
+const { tags, transitionName } = Astro.props;
+---
+{tags.length > 0 && <ul class="tag-links" aria-label="Tags" transition:name={transitionName} data-post-transition={transitionName}>
+  <li class="tag-symbol" aria-hidden="true"><Icon name="tags" size={15} /></li>
+  {tags.map(tag => <li><a href={tagPageURL(tag)}>#{tag}</a></li>)}
+</ul>}

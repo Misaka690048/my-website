@@ -1,0 +1,70 @@
+---
+import type { MarkdownHeading, ImageMetadata } from 'astro';
+import WorkCover from '../components/WorkCover.astro';
+import BaseLayout from './BaseLayout.astro';
+import PostDate from '../components/PostDate.astro';
+import Icon from '../components/Icon.astro';
+import DisclosureTriangle from '../components/DisclosureTriangle.astro';
+import { titleTransition, metadataTransition } from '../lib/posts';
+import TagLinks from '../components/TagLinks.astro';
+interface Props {
+  title: string; description: string; date?: Date; id: string;
+  headings: MarkdownHeading[]; preview?: boolean;
+  tags?: string[]; author?: string;
+  backPath?: string; backLabel?: string;
+  workCover?: { id: string; title: string; image: ImageMetadata; glowColor: string };
+}
+const { title, description, date, id, headings, preview = false, tags = [], author,
+  backPath, backLabel, workCover } = Astro.props;
+const listPath = backPath ?? '/writing/';
+const listLabel = backLabel ?? 'Writing';
+const toc: { heading: MarkdownHeading; children: MarkdownHeading[] }[] = [];
+for (const heading of headings) {
+  if (heading.depth === 2) toc.push({ heading, children: [] });
+  else if (heading.depth === 3) {
+    const parent = toc.at(-1);
+    if (parent) parent.children.push(heading);
+    else toc.push({ heading, children: [] });
+  }
+}
+---
+<BaseLayout title={title} description={description} ogType="article" wide noindex={preview}>
+  {workCover && <div slot="background" class="work-ambient" style={{ '--work-glow-color': workCover.glowColor }} aria-hidden="true" />}
+  <div class="article-grid">
+    <div class="article-column">
+      <article id="reading-article">
+        <header class="article-heading">
+          {workCover && <WorkCover {...workCover} />}
+          <h1 class="print-heading" transition:name={titleTransition(id)} data-post-transition={titleTransition(id)}>{title}</h1>
+          <div class="article-metadata">
+            {(date || author) && <p class="post-meta">{date && <PostDate date={date} transitionName={metadataTransition(id, 'date')} />}{author && <span>{author}</span>}</p>}
+            <TagLinks tags={tags} transitionName={metadataTransition(id, 'tags')} />
+          </div>
+        </header>
+        <div class="prose" id="article-body"><slot /></div>
+      </article>
+      <div class="article-end"><span>— End —</span><a href={listPath} class="back-link" data-back-to-list={workCover ? undefined : ''}><Icon name="arrow-left" size={16} /> Back to {listLabel}</a></div>
+    </div>
+    {toc.length > 0 && (
+      <aside class="toc" aria-label="Contents">
+        <details open>
+          <summary><DisclosureTriangle /><span>Contents</span></summary>
+          <div class="toc-body">
+            <nav class="toc-nav" aria-label="Sections">
+              <span class="toc-indicator" aria-hidden="true"><Icon name="chevron-down" size={16} /></span>
+              <ol>{toc.map(({ heading, children }) => (
+              <li data-toc-group>
+                <a href={`#${heading.slug}`} data-toc-link>{heading.text}</a>
+                {children.length > 0 && (
+                  <div class="toc-child-panel" data-toc-children><ol class="toc-children">{children.map(child => (
+                    <li><a href={`#${child.slug}`} data-toc-link>{child.text}</a></li>
+                  ))}</ol></div>
+                )}
+              </li>
+            ))}</ol></nav>
+          </div>
+        </details>
+      </aside>
+    )}
+  </div>
+</BaseLayout>

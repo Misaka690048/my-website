@@ -1,0 +1,38 @@
+/* These are the only pattern controls; the site's palette/theme stays intact. */
+:root {
+  --botanical-opacity: .04;
+  --botanical-tile-size: 420px;
+  --botanical-position: center;
+  --botanical-reading-strength: .2;
+  --botanical-mask-feather: 120px;
+}
+:root[data-theme="dark"] { --botanical-opacity: .05; }
+
+/* Within the body's stacking context: paint → pattern (-2) → review wash (-1)
+   → content. No extra background boxes or layout dimensions. */
+body { position: relative; isolation: isolate; }
+.page-botanical {
+  --botanical-reading-half: min(calc(50% - 24px), calc(var(--content-width) / 2));
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  user-select: none;
+  background-image: var(--botanical-light-image);
+  background-repeat: repeat;
+  background-size: var(--botanical-tile-size) auto;
+  background-position: var(--botanical-position);
+  opacity: var(--botanical-opacity);
+  mask-image: linear-gradient(to right,
+    #000 max(0px, calc(50% - var(--botanical-reading-half) - var(--botanical-mask-feather))),
+    rgb(0 0 0 / var(--botanical-reading-strength)) calc(50% - var(--botanical-reading-half)),
+    rgb(0 0 0 / var(--botanical-reading-strength)) calc(50% + var(--botanical-reading-half)),
+    #000 min(100%, calc(50% + var(--botanical-reading-half) + var(--botanical-mask-feather))));
+}
+[data-theme="dark"] .page-botanical { background-image: var(--botanical-dark-image); }
+@media (max-width: 600px) {
+  :root { --botanical-tile-size: 320px; --botanical-mask-feather: 48px; }
+}
+@media print, (forced-colors: active), (prefers-reduced-transparency: reduce) {
+  .page-botanical { display: none; }
+}

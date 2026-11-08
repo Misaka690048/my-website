@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WorkShelf from '../../components/WorkShelf.astro';
+import { libraryWorks } from '../../lib/works';
+const works = await libraryWorks();
+---
+<BaseLayout title="Mirrow World" description="读过、看过、游历过的作品，与留下的感想。">
+  <header class="page-heading"><h1 class="print-heading">Mirrow World</h1></header>
+  {works.length ? <WorkShelf works={works} /> : <p class="muted">Nothing here yet.</p>}
+</BaseLayout>

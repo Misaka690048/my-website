@@ -1,0 +1,27 @@
+---
+// Follow the local reference's background-to-transparent edge treatment.
+// This is a fade, not a backdrop blur; it covers the masthead and page controls.
+---
+<div class="viewport-edge edge-top" aria-hidden="true"></div>
+<div class="viewport-edge edge-bottom" aria-hidden="true"></div>
+
+<style>
+  .viewport-edge {
+    --edge-direction: to bottom;
+    position: fixed;
+    inset-inline: 0;
+    height: min(88px, 14svh);
+    z-index: 200;
+    pointer-events: none;
+    user-select: none;
+    background: linear-gradient(var(--edge-direction), var(--bg), transparent);
+  }
+  .edge-top { top: 0; }
+  .edge-bottom { bottom: 0; --edge-direction: to top; }
+  @media (max-width: 600px) {
+    .viewport-edge { height: min(60px, 12svh); }
+  }
+  @media (prefers-reduced-transparency: reduce), (forced-colors: active), print {
+    .viewport-edge { display: none; }
+  }
+</style>

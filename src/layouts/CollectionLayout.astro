@@ -1,0 +1,44 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import PostList from '../components/PostList.astro';
+import Icon from '../components/Icon.astro';
+import DisclosureTriangle from '../components/DisclosureTriangle.astro';
+import { sortedPosts } from '../lib/posts';
+import { countTags, tagURL } from '../lib/tags';
+const posts = await sortedPosts();
+const name = 'Writing';
+const tags = countTags(posts);
+const path = '/writing/';
+---
+<BaseLayout title={name} description="随笔、故事、专业知识与学习记录。" wide>
+  <header class="collection-heading"><h1 class="print-heading">{name}</h1></header>
+  <div class="collection-grid" data-collection data-path={path}>
+    <section class="collection-results" aria-label={`${name} posts`}>
+      <div class="collection-status">
+        <p class="small muted" role="status" aria-live="polite" data-filter-status>{posts.length} {posts.length === 1 ? 'post' : 'posts'}</p>
+        <button type="button" class="filter-clear js-control" data-clear-tags hidden>Clear</button>
+      </div>
+      <div class="selected-tags" data-selected-tags hidden aria-label="Selected tags"></div>
+      <PostList posts={posts} groupByYear headingLevel="h3" />
+      <div class="collection-empty" data-filter-empty hidden={posts.length > 0}>
+        <p data-empty-message>No posts yet.</p>
+        <button type="button" class="text-link js-control" data-clear-tags hidden>Clear</button>
+      </div>
+    </section>
+    <aside class="tag-sidebar" aria-label="Filter by tag">
+      <details open data-tag-panel>
+        <summary><span><Icon name="tags" size={17} /> Tags <span class="small muted" data-tag-selection-count></span></span><DisclosureTriangle /></summary>
+        <div class="tag-panel-body">
+          <ul class="tag-filter-list">{tags.map(([tag]) => <li>
+            <a href={tagURL(path, [tag])} class="tag-filter" data-filter-tag={tag}>
+              <span>#{tag}</span>
+            </a>
+          </li>)}</ul>
+          {tags.length === 0 && <p class="small muted">No tags yet.</p>}
+          <a class="all-tags-link" href="/tags/">View all <Icon name="arrow-up-right" size={14} /></a>
+        </div>
+      </details>
+    </aside>
+  </div>
+  <noscript><p class="small muted">Enable JavaScript to filter by tag.</p></noscript>
+</BaseLayout>

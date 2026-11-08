@@ -1,0 +1,24 @@
+---
+import SocialLinks from './SocialLinks.astro';
+import { siteAge } from '../lib/site-age';
+interface Props { showPreviewLink?: boolean; }
+const { showPreviewLink = true } = Astro.props;
+const { days, years } = siteAge();
+---
+<footer class="site-footer" transition:name="site-footer" transition:animate="none">
+  <div class="footer-main">
+    <div class="footer-info">
+      <p>© <span data-site-years>{years}</span> imisslog</p>
+      <p data-site-days>Online for {days} {days === 1 ? 'day' : 'days'}</p>
+    </div>
+    <SocialLinks />
+  </div>
+  {import.meta.env.DEV && showPreviewLink && <div class="footer-preview">
+    <a href="/design-preview/">Typography preview</a>
+  </div>}
+</footer>
+
+<style>
+  .site-footer { padding-top: 0; }
+  .site-footer .footer-main { margin-top: 16px; }
+</style>

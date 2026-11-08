@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TagHeading from '../components/TagHeading.astro';
+import { sortedPosts } from '../lib/posts';
+import { groupedTags, tagPageURL } from '../lib/tag-catalog';
+const groups = groupedTags(await sortedPosts());
+---
+<BaseLayout title="Tags" description="按主题探索小说、电子与计算机文章。">
+  <header class="tag-index-heading"><TagHeading>Tags</TagHeading></header>
+  <div class="tag-groups">
+    {groups.map((group, index) => <section class="tag-group" aria-labelledby={`tag-group-${index}`}>
+      <h2 id={`tag-group-${index}`}><span class="tag-group-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><span>{group.name}</span></h2>
+      <ul class="directory-tags">{group.tags.map(tag => <li>
+        <a href={tagPageURL(tag.name)} class="directory-tag" aria-label={`${tag.name}, ${tag.count} ${tag.count === 1 ? 'post' : 'posts'}`}>
+          <span class="directory-tag-name">#{tag.name}</span><sup class="tag-count" aria-hidden="true">{tag.count}</sup>
+        </a>
+      </li>)}</ul>
+    </section>)}
+    {groups.length === 0 && <p class="muted small">No tags yet.</p>}
+  </div>
+</BaseLayout>

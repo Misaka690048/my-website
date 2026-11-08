@@ -1,0 +1,17 @@
+---
+interface Props { detail?: boolean; }
+const { detail = false } = Astro.props;
+---
+<h1 class:list={['tag-print-title', 'print-heading', { detail }]}><slot /></h1>
+
+<style>
+  .tag-print-title {
+    margin: 0;
+    font-family: var(--font-display, var(--font-serif));
+    font-size: clamp(32px, 4.5vw, 40px);
+    font-weight: 650;
+    letter-spacing: -.015em;
+    line-height: 1.3;
+  }
+  .tag-print-title.detail { font-size: clamp(30px, 4vw, 38px); line-height: 1.5; letter-spacing: -.02em; }
+</style>
